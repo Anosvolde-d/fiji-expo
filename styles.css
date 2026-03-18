@@ -1,0 +1,1192 @@
+/* ============================================
+   FIJI EXPO — Apple WWDC Keynote Style
+   Ultra-Premium Class Presentation
+   ============================================ */
+
+/* --- Reset & Base --- */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    /* Apple-style system fonts */
+    --font-head: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+    --font-body: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+    
+    /* Refined color palette */
+    --black: #000;
+    --white: #fff;
+    --white-soft: #f5f7fb;
+    --grey: #9ea6b6;
+    --grey-dark: #1d1d1f;
+    --pearl: #eef4ff;
+    --pearl-gold: #dbe7ef;
+    --coral: #ff8c78;
+    --coral-soft: rgba(255, 140, 120, 0.18);
+    
+    /* Premium accent colors */
+    --accent: #84b8ff;
+    --accent-hover: #a9cbff;
+    --accent-light: rgba(132, 184, 255, 0.16);
+    --accent2: #dbe7ef;
+    
+    /* Premium glass / satin */
+    --glass: rgba(255, 255, 255, 0.04);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-strong: rgba(255, 255, 255, 0.13);
+    --satin: linear-gradient(180deg, rgba(238, 244, 255, 0.15) 0%, rgba(169, 193, 228, 0.08) 100%);
+    --satin-border: rgba(219, 231, 239, 0.24);
+    
+    /* iOS-style radius */
+    --radius: 20px;
+    --radius-lg: 28px;
+    
+    /* Typography scale */
+    --base: 15px;
+    --s1: 21px;
+    --s2: 34px;
+    --s3: 55px;
+    --s4: 80px;
+    
+    --space: clamp(1.5rem, 4vw, 3.5rem);
+    
+    /* Animation */
+    --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+    --ease-out-quart: cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+html { font-size: var(--base); scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-body);
+    background: var(--black);
+    color: var(--white);
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+}
+
+.skip-link {
+    position: absolute;
+    top: -100%;
+    left: 0;
+    background: var(--accent);
+    color: var(--white);
+    padding: .5rem 1rem;
+    z-index: 9999;
+    font-weight: 700;
+    text-decoration: none;
+}
+.skip-link:focus { top: 0; }
+
+/* --- Slide System --- */
+.slide {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px) scale(0.98);
+    transition: opacity 0.7s var(--ease-out-expo),
+                transform 0.7s var(--ease-out-expo),
+                visibility 0s 0.7s;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.slide.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+    transition: opacity 0.7s var(--ease-out-expo),
+                transform 0.7s var(--ease-out-expo),
+                visibility 0s 0s;
+    z-index: 1;
+}
+
+.slide.exit-up {
+    opacity: 0;
+    transform: translateY(-30px) scale(0.95);
+}
+
+.slide.exit-down {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+/* --- Section Label --- */
+.section-label {
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+    padding-left: 0.75rem;
+    border-left: 2.5px solid var(--accent);
+    text-shadow: 0 0 18px rgba(132, 184, 255, 0.18);
+}
+
+h2 {
+    font-family: var(--font-head);
+    font-size: clamp(var(--s2), 5vw, var(--s3));
+    font-weight: 700;
+    text-transform: none;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: var(--space);
+    color: var(--white);
+}
+
+h3 {
+    font-family: var(--font-head);
+    font-size: var(--s1);
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    color: var(--white);
+}
+
+p {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--grey);
+    font-weight: 400;
+}
+
+/* --- Glass Card - Apple Style --- */
+.neo-card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.16);
+    transition: transform 0.4s var(--ease-out-quart),
+                box-shadow 0.4s var(--ease-out-quart),
+                background 0.3s ease,
+                border-color 0.3s ease;
+}
+
+.neo-card:hover {
+    transform: translateY(-3px);
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(219, 231, 239, 0.16);
+    box-shadow: 0 16px 42px rgba(0, 0, 0, 0.22);
+}
+
+.stat-card,
+.info-card,
+.food-card,
+.highlight,
+.location-coords,
+.flag-card,
+.essential-card,
+.star-card {
+    background: var(--satin);
+    border: 1px solid var(--satin-border);
+    backdrop-filter: blur(18px) saturate(150%);
+    -webkit-backdrop-filter: blur(18px) saturate(150%);
+    box-shadow: 0 18px 48px rgba(0, 0, 0, 0.22);
+}
+
+.stat-card::before,
+.info-card::before,
+.food-card::before,
+.highlight::before,
+.flag-card::before,
+.essential-card::before,
+.star-card::before {
+    content: "";
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 28px;
+    height: 28px;
+    border-top: 1px solid rgba(219, 231, 239, 0.7);
+    border-right: 1px solid rgba(219, 231, 239, 0.7);
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.stat-card::after,
+.info-card::after,
+.food-card::after,
+.highlight::after,
+.flag-card::after,
+.essential-card::after,
+.star-card::after {
+    content: "";
+    position: absolute;
+    bottom: 14px;
+    left: 14px;
+    width: 28px;
+    height: 28px;
+    border-bottom: 1px solid rgba(255, 140, 120, 0.44);
+    border-left: 1px solid rgba(255, 140, 120, 0.44);
+    opacity: 0.55;
+    pointer-events: none;
+}
+
+/* --- Material Symbols --- */
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* ============================================
+   HERO (Slide 0) - Apple Keynote
+   ============================================ */
+.hero { background: var(--black); }
+
+.hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    opacity: 0.62;
+    filter: saturate(1.05) contrast(1.08) brightness(0.9);
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg,
+        rgba(0,0,0,0.34) 0%,
+        rgba(0,0,0,0.18) 45%,
+        rgba(0,0,0,0.48) 100%);
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 0 2rem;
+}
+
+.hero-tag {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+}
+
+.hero-title {
+    font-family: var(--font-head);
+    font-size: clamp(var(--s4), 16vw, 180px);
+    font-weight: 700;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    color: var(--white);
+    margin-bottom: 0.75rem;
+    text-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+}
+
+.hero-sub {
+    font-family: var(--font-body);
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.82);
+    margin-bottom: 2.5rem;
+    letter-spacing: 0.01em;
+    text-shadow: 0 6px 24px rgba(0, 0, 0, 0.28);
+}
+
+.hero-line {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--pearl-gold) 70%, var(--coral) 100%);
+    border-radius: 2px;
+    margin: 0 auto;
+    box-shadow: 0 0 24px rgba(132, 184, 255, 0.28);
+}
+
+.scroll-hint {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 1.75rem;
+    opacity: 0.75;
+}
+
+/* ============================================
+   STATS (Slide 1) - Apple Style
+   ============================================ */
+.stats-section { background: var(--black); }
+
+.section-bg-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    opacity: 0.2;
+}
+
+.section-bg-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.85) 100%);
+    z-index: 1;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+}
+
+.stat-card {
+    padding: 2rem 1.5rem;
+    text-align: center;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+.stat-card .material-symbols-outlined {
+    font-size: var(--s2);
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+    display: block;
+    font-size: 32px;
+}
+
+.stat-number {
+    font-family: var(--font-head);
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 0.35rem;
+    letter-spacing: -0.02em;
+}
+
+.stat-label {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: 0.02em;
+    color: var(--grey);
+}
+
+.stats-section.bg-pattern-2 .section-bg-overlay {
+    background: linear-gradient(135deg, rgba(0, 180, 216, 0.1), rgba(0, 0, 0, 0.8));
+}
+
+/* ============================================
+   INFO (Slide 2) - Apple Style
+   ============================================ */
+.info-section { background: #0a0a0a; }
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+}
+
+.info-card {
+    padding: 2rem;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+.info-card .material-symbols-outlined {
+    font-size: 32px;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+    display: block;
+}
+
+.info-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.info-card p {
+    font-size: 0.9rem;
+    line-height: 1.55;
+}
+
+/* ============================================
+   GALLERY (Slide 3) - Apple Style
+   ============================================ */
+.gallery-section { background: var(--black); }
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+}
+
+.gallery-item {
+    overflow: hidden;
+    cursor: pointer;
+    aspect-ratio: 16/10;
+    border-radius: var(--radius);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s var(--ease-out-expo);
+}
+
+.gallery-item:hover img,
+.gallery-item:focus img {
+    transform: scale(1.05);
+}
+
+/* ============================================
+   TRADITIONS (Slide 4) - Apple Style
+   ============================================ */
+.traditions-section { background: #0a0a0a; }
+
+.traditions-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3.5rem;
+    align-items: center;
+}
+
+.traditions-img {
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    border-radius: var(--radius);
+}
+
+.traditions-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.traditions-text .traditions-icon {
+    font-size: var(--s3);
+    color: var(--accent);
+    display: block;
+    margin-bottom: 0.75rem;
+    font-size: 36px;
+}
+
+.traditions-text h3 {
+    color: var(--grey);
+    font-weight: 500;
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+/* ============================================
+   TRADITIONAL OUTFITS (Slide 5) - Apple Style
+   ============================================ */
+.outfits-section { background: var(--black); }
+
+.outfits-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3.5rem;
+    align-items: center;
+}
+
+.outfits-img {
+    overflow: hidden;
+    aspect-ratio: 3/4;
+    border-radius: var(--radius);
+}
+
+.outfits-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.outfits-text .outfits-icon {
+    font-size: var(--s3);
+    color: var(--accent);
+    display: block;
+    margin-bottom: 0.75rem;
+    font-size: 36px;
+}
+
+.outfits-text h3 {
+    color: var(--grey);
+    font-weight: 500;
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+}
+
+/* ============================================
+   LOCATION (Slide 6) - Apple Style
+   ============================================ */
+.location-section { background: var(--black); }
+.location-overlay { background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.85) 100%); }
+
+.location-icon {
+    font-size: var(--s3);
+    color: var(--accent);
+    display: block;
+    margin-bottom: 0.75rem;
+    font-size: 36px;
+}
+
+.location-desc {
+    max-width: 700px;
+    margin-bottom: 2rem;
+    font-size: 1.05rem;
+    line-height: 1.65;
+}
+
+.location-coords {
+    display: inline-flex;
+    gap: 0;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+.coord {
+    padding: 1.25rem 2rem;
+    border-right: 1px solid var(--glass-border);
+    text-align: center;
+}
+
+.coord:last-child { border-right: none; }
+
+.coord span {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    margin-bottom: 0.3rem;
+    text-transform: uppercase;
+}
+
+.coord strong {
+    font-family: var(--font-head);
+    font-size: 1.1rem;
+    color: var(--white);
+    font-weight: 600;
+}
+
+/* ============================================
+   FOOD (Slide 7) - Apple Style
+   ============================================ */
+.food-section { background: var(--black); }
+
+.section-header {
+    text-align: left;
+    margin-bottom: 2rem;
+}
+
+.section-header .material-symbols-outlined {
+    font-size: var(--s2);
+    color: var(--accent);
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 32px;
+}
+
+.section-header p { margin-top: 0.5rem; font-size: 1.1rem; }
+
+.food-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+}
+
+.food-card {
+    overflow: hidden;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+.food-img {
+    aspect-ratio: 16/10;
+    overflow: hidden;
+}
+
+.food-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s var(--ease-out-expo);
+}
+
+.food-card:hover .food-img img { transform: scale(1.05); }
+
+.food-text { padding: 1.25rem; }
+
+.food-text .material-symbols-outlined {
+    font-size: 1.25rem;
+    color: var(--accent);
+    margin-bottom: 0.4rem;
+    display: block;
+}
+
+.food-text h3 {
+    font-size: 1rem;
+    margin-bottom: 0.35rem;
+}
+
+.food-text p {
+    font-size: 0.8rem;
+    line-height: 1.5;
+}
+
+/* ============================================
+   HIGHLIGHTS / DID YOU KNOW (Slide 8) - Apple Style
+   ============================================ */
+.highlights-section { background: #0a0a0a; }
+
+.highlights-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.highlight {
+    padding: 1.25rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+.highlight .material-symbols-outlined {
+    font-size: 1.5rem;
+    color: var(--accent);
+    flex-shrink: 0;
+}
+
+.highlight div {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #e5e5e7;
+}
+
+/* ============================================
+   MARINE / VIDEOS (Slide 9) - Apple Style
+   ============================================ */
+.marine-section { background: var(--black); }
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+    max-width: 980px;
+}
+
+.video-card {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 16/9;
+    cursor: pointer;
+    border-radius: var(--radius);
+}
+
+.video-card video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.video-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem 1.25rem;
+    background: linear-gradient(transparent, rgba(0,0,0,0.88));
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: 0.02em;
+    color: var(--white);
+}
+
+.video-card.fullscreen {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    aspect-ratio: auto;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+/* ============================================
+   FLAG (Slide 10) — Static editorial panel
+   ============================================ */
+.flag-section {
+    background:
+        radial-gradient(circle at top right, rgba(255, 255, 255, 0.14), transparent 30%),
+        linear-gradient(135deg, #8ea2d8 0%, #7f95cf 48%, #7187c6 100%);
+}
+
+.flag-content {
+    position: relative;
+    z-index: 1;
+    width: 90%;
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+}
+
+.flag-header {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.flag-img {
+    width: clamp(300px, 40vw, 600px);
+    filter: drop-shadow(0 18px 42px rgba(20, 30, 60, 0.3));
+}
+
+.flag-title {
+    font-family: var(--font-head);
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: rgba(255, 255, 255, 0.92);
+    margin-bottom: 0;
+    text-shadow: 0 10px 30px rgba(34, 44, 79, 0.18);
+}
+
+.flag-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    width: 100%;
+}
+
+.flag-card {
+    position: relative;
+    padding: 1.5rem;
+    overflow: hidden;
+    border-radius: var(--radius);
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    box-shadow: 0 16px 32px rgba(40, 56, 102, 0.14);
+}
+
+.flag-card strong {
+    font-family: var(--font-head);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.94);
+    display: block;
+    margin-bottom: 0.4rem;
+}
+
+.flag-card p {
+    font-size: 1.08rem;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.84);
+    margin: 0;
+}
+
+/* ============================================
+   ESSENTIALS (Slide 11)
+   ============================================ */
+.essentials-section {
+    background:
+        radial-gradient(circle at top left, rgba(132, 184, 255, 0.2), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(255, 140, 120, 0.12), transparent 32%),
+        linear-gradient(180deg, #04070d 0%, #08111f 100%);
+}
+
+.essentials-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.essential-card {
+    padding: 1.5rem;
+    min-height: 210px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.essential-kicker {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--pearl-gold);
+    margin-bottom: 0.8rem;
+}
+
+.essential-card h3,
+.star-copy h3 {
+    font-size: 1.3rem;
+    line-height: 1.15;
+    margin-bottom: 0.5rem;
+}
+
+.essential-card p,
+.star-copy p {
+    color: rgba(255, 255, 255, 0.78);
+}
+
+.essential-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.essential-list li {
+    color: rgba(255, 255, 255, 0.86);
+    font-size: 1rem;
+    line-height: 1.45;
+}
+
+.stars-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.star-card {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 1rem;
+    align-items: stretch;
+    overflow: hidden;
+}
+
+.star-card img {
+    width: 100%;
+    height: 100%;
+    min-height: 220px;
+    object-fit: cover;
+    display: block;
+}
+
+.star-copy {
+    padding: 1.4rem 1.4rem 1.4rem 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.quote-section { background: var(--black); }
+
+h2,
+.hero-title,
+.flag-title,
+blockquote,
+.stat-number,
+.essential-card h3,
+.star-copy h3 {
+    text-wrap: balance;
+}
+
+.flag-title,
+.essential-card h3,
+.star-copy h3,
+.coord strong {
+    color: var(--pearl);
+}
+
+.highlight .material-symbols-outlined,
+.section-header .material-symbols-outlined,
+.food-text .material-symbols-outlined,
+.location-icon,
+.traditions-text .traditions-icon,
+.outfits-text .outfits-icon,
+.stat-card .material-symbols-outlined,
+.info-card .material-symbols-outlined {
+    color: var(--coral);
+}
+
+.quote-bg-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+.quote-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 1;
+}
+
+.quote-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+.quote-img {
+    overflow: hidden;
+    aspect-ratio: 16/9;
+}
+
+.quote-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.quote-text { text-align: left; }
+
+.quote-text .material-symbols-outlined {
+    font-size: var(--s3);
+    color: var(--accent2);
+    display: block;
+    margin-bottom: 1rem;
+}
+
+blockquote {
+    font-family: var(--font-head);
+    font-size: clamp(var(--s1), 3vw, var(--s2));
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--white);
+    border-left: 3px solid var(--accent2);
+    padding-left: 1.5rem;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+}
+
+/* ============================================
+   LIGHTBOX
+   ============================================ */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 200;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox.open { display: flex; }
+
+.lightbox-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    color: var(--white);
+    font-size: 2.5rem;
+    cursor: pointer;
+    z-index: 201;
+    line-height: 1;
+}
+
+.lightbox-content {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    max-width: 90vw;
+    max-height: 85vh;
+}
+
+.lightbox-image {
+    max-width: 80vw;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: var(--radius);
+}
+
+.lightbox-nav {
+    background: none;
+    border: none;
+    color: var(--white);
+    font-size: 3rem;
+    cursor: pointer;
+    padding: 1rem;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.lightbox-nav:hover { opacity: 1; }
+
+/* ============================================
+   IDLE ANIMATIONS
+   ============================================ */
+@keyframes idle-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+.slide.active .idle-float {
+    animation: idle-float 4s ease-in-out infinite;
+    animation-delay: calc(var(--i, 0) * 0.3s);
+}
+
+@keyframes idle-drift {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(6px); }
+}
+
+.slide.active .idle-drift {
+    animation: idle-drift 5s ease-in-out infinite;
+}
+
+@keyframes idle-bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+}
+
+.idle-bounce { animation: idle-bounce 2s ease-in-out infinite; }
+
+@keyframes idle-expand {
+    0%, 100% { width: 80px; }
+    50% { width: 120px; }
+}
+
+.slide.active .idle-expand {
+    animation: idle-expand 3s ease-in-out infinite;
+}
+
+@keyframes idle-glitch {
+    0%, 95%, 100% { text-shadow: none; }
+    96% { text-shadow: -2px 0 var(--accent), 2px 0 var(--accent2); }
+    98% { text-shadow: 2px 0 var(--accent), -2px 0 var(--accent2); }
+}
+
+.slide.active .idle-glitch {
+    animation: idle-glitch 6s ease-in-out infinite;
+}
+
+/* Card stagger entrance - Apple style */
+@keyframes apple-appear {
+    from {
+        opacity: 0;
+        transform: translateY(28px) scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.slide.active .neo-card {
+    animation: apple-appear 0.65s var(--ease-out-expo) both;
+    animation-delay: calc(var(--i, 0) * 0.1s);
+}
+
+/* Stat number animation */
+@keyframes count-up {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================
+   RESPONSIVE - Apple Style
+   ============================================ */
+@media (max-width: 900px) {
+    .stats-grid,
+    .info-grid,
+    .gallery-grid,
+    .food-grid,
+    .video-grid,
+    .essentials-grid { grid-template-columns: 1fr 1fr; }
+
+    .highlights-grid { grid-template-columns: 1fr 1fr; }
+
+    .traditions-layout,
+    .quote-layout,
+    .outfits-layout,
+    .stars-grid { grid-template-columns: 1fr; gap: 2rem; }
+
+    .hero-content { padding: 0 1.5rem; }
+}
+
+@media (max-width: 600px) {
+    :root {
+        --radius: 16px;
+    }
+    
+    .stats-grid,
+    .info-grid,
+    .gallery-grid,
+    .food-grid,
+    .highlights-grid,
+    .video-grid,
+    .essentials-grid,
+    .stars-grid { grid-template-columns: 1fr; }
+
+    .hero-title { font-size: clamp(3rem, 18vw, 5rem); }
+    
+    .hero-sub {
+        font-size: 1rem;
+    }
+
+    .container { width: 92%; }
+
+    .location-coords { flex-direction: column; display: flex; border-radius: var(--radius); }
+    .coord { border-right: none; border-bottom: 1px solid var(--glass-border); }
+    .coord:last-child { border-bottom: none; }
+    
+    .coord { padding: 1rem 1.5rem; }
+
+    .flag-img { width: 200px; }
+    .flag-grid { grid-template-columns: 1fr; }
+    .flag-header { flex-direction: column; gap: 1rem; text-align: center; }
+    .star-card { grid-template-columns: 1fr; }
+    .star-copy { padding: 0 1.25rem 1.25rem; }
+    
+    .quote-layout { grid-template-columns: 1fr; gap: 1.5rem; }
+}

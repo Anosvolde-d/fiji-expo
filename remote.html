@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remote Control - Fiji Expo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@300;400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --black: #0a0a0a;
+            --white: #f5f5f0;
+            --grey: #888;
+            --accent: #00B4D8;
+            --green: #4ade80;
+            --red: #f87171;
+            --font-head: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --neo-border: 3px solid rgba(255,255,255,0.15);
+            --neo-shadow: 4px 4px 0 rgba(255,255,255,0.08);
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--black);
+            color: var(--white);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .remote {
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .remote-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .remote-header h1 {
+            font-family: var(--font-head);
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--grey);
+        }
+
+        .remote-header h1 span {
+            color: var(--accent);
+        }
+
+        .slide-display {
+            background: rgba(255,255,255,0.03);
+            border: var(--neo-border);
+            box-shadow: var(--neo-shadow);
+            padding: 1.5rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide-display::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent);
+            transform: scaleX(var(--progress, 0.083));
+            transform-origin: left;
+            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .slide-num {
+            font-family: var(--font-mono);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .slide-num span { color: var(--grey); }
+
+        .slide-name {
+            font-family: var(--font-head);
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+
+        .nav-row {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: rgba(255,255,255,0.03);
+            border: var(--neo-border);
+            box-shadow: var(--neo-shadow);
+            color: var(--white);
+            font-family: var(--font-head);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn:hover:not(:disabled) {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        .btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .btn-accent { border-color: var(--accent); color: var(--accent); }
+        .btn-accent:hover { background: rgba(0,180,216,0.1); }
+        .btn-accent.active { background: rgba(0,180,216,0.2); }
+
+        .btn-marine { border-color: #06b6d4; color: #06b6d4; }
+        .btn-marine:hover { background: rgba(6,182,212,0.1); }
+        .btn-marine.active { background: rgba(6,182,212,0.2); }
+
+        .btn-sunset { border-color: #f59e0b; color: #f59e0b; }
+        .btn-sunset:hover { background: rgba(245,158,11,0.1); }
+        .btn-sunset.active { background: rgba(245,158,11,0.2); }
+
+        .jump-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .jump-btn {
+            padding: 0.6rem 0.25rem;
+            background: rgba(255,255,255,0.02);
+            border: 2px solid rgba(255,255,255,0.08);
+            color: var(--grey);
+            font-family: var(--font-head);
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .jump-btn:hover { border-color: rgba(255,255,255,0.2); color: var(--white); }
+
+        .jump-btn.current {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(0,180,216,0.08);
+        }
+
+        .status-bar {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            text-align: center;
+            padding: 0.75rem;
+            border: 2px solid rgba(255,255,255,0.05);
+            color: var(--grey);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .status-bar.ok { color: var(--green); border-color: rgba(74,222,128,0.2); }
+        .status-bar.err { color: var(--red); border-color: rgba(248,113,113,0.2); }
+
+        .status-bar::before {
+            content: '● ';
+        }
+    </style>
+</head>
+<body>
+    <div class="remote">
+        <div class="remote-header">
+            <h1><span>FIJI</span> REMOTE</h1>
+        </div>
+
+        <div class="slide-display" id="slideDisplay">
+            <div class="slide-num"><span id="slideNum">01</span><span> / <span id="slideTotal">12</span></span></div>
+            <div class="slide-name" id="slideName">HERO</div>
+        </div>
+
+        <div class="nav-row">
+            <button class="btn" id="prevBtn">
+                <span class="material-symbols-outlined">chevron_left</span>
+                PREV
+            </button>
+            <button class="btn" id="nextBtn">
+                NEXT
+                <span class="material-symbols-outlined">chevron_right</span>
+            </button>
+        </div>
+
+        <div class="jump-grid" id="jumpGrid"></div>
+
+        <button class="btn btn-accent" id="musicBtn" style="width:100%;margin-bottom:1rem;">
+            <span class="material-symbols-outlined">music_note</span>
+            <span id="musicText">Play Music</span>
+        </button>
+
+        <div class="ctx-controls" id="ctxControls">
+            <button class="btn btn-accent" id="bgBtn" style="display:none">
+                <span class="material-symbols-outlined">wallpaper</span>
+                <span id="bgText">Stats BG: Pattern 1</span>
+            </button>
+            <button class="btn btn-marine" id="marineBtn" style="display:none">
+                <span class="material-symbols-outlined">scuba_diving</span>
+                <span id="marineText">Marine Video</span>
+            </button>
+            <button class="btn btn-sunset" id="sunsetBtn" style="display:none">
+                <span class="material-symbols-outlined">wb_twilight</span>
+                <span id="sunsetText">Sunset Video</span>
+            </button>
+        </div>
+
+        <div class="status-bar" id="status">Connecting</div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const names = ['Hero','Stats','Info','Gallery','Traditions','Outfits','Location','Food','Did You Know','Marine Life','Flag','Essentials','Quote'];
+        let cur = 0, music = false, bgPat = 1, marineFull = false, sunsetFull = false;
+
+        const $ = id => document.getElementById(id);
+        const socket = io();
+
+        // Build jump grid
+        const grid = $('jumpGrid');
+        names.forEach((n, i) => {
+            const b = document.createElement('button');
+            b.className = 'jump-btn' + (i === 0 ? ' current' : '');
+            b.textContent = n;
+            b.addEventListener('click', () => { cur = i; socket.emit('changeSlide', cur); updateUI(); });
+            grid.appendChild(b);
+        });
+
+        function updateUI() {
+            $('slideNum').textContent = String(cur + 1).padStart(2, '0');
+            $('slideName').textContent = names[cur];
+            $('slideDisplay').style.setProperty('--progress', (cur + 1) / names.length);
+            $('prevBtn').disabled = cur === 0;
+            $('nextBtn').disabled = cur === names.length - 1;
+
+            grid.querySelectorAll('.jump-btn').forEach((b, i) => {
+                b.classList.toggle('current', i === cur);
+            });
+
+            const isStats = cur === 1, isMarine = cur === 9;
+            const ctx = $('ctxControls');
+            ctx.classList.toggle('visible', isStats || isMarine);
+            $('bgBtn').style.display = isStats ? 'flex' : 'none';
+            $('marineBtn').style.display = isMarine ? 'flex' : 'none';
+            $('sunsetBtn').style.display = isMarine ? 'flex' : 'none';
+        }
+
+        $('prevBtn').addEventListener('click', () => { if (cur > 0) { cur--; socket.emit('changeSlide', cur); updateUI(); } });
+        $('nextBtn').addEventListener('click', () => { if (cur < names.length - 1) { cur++; socket.emit('changeSlide', cur); updateUI(); } });
+
+        $('musicBtn').addEventListener('click', () => {
+            music = !music;
+            socket.emit('toggleMusic', music);
+            $('musicBtn').classList.toggle('active', music);
+            $('musicText').textContent = music ? 'Stop Music' : 'Play Music';
+        });
+
+        $('bgBtn').addEventListener('click', () => {
+            bgPat = bgPat === 1 ? 2 : 1;
+            socket.emit('toggleStatsBg', bgPat);
+            $('bgText').textContent = 'Stats BG: Pattern ' + bgPat;
+        });
+
+        $('marineBtn').addEventListener('click', () => {
+            marineFull = !marineFull;
+            socket.emit('toggleVideoFullscreen', { videoId: 'marine', isFullscreen: marineFull });
+            $('marineText').textContent = marineFull ? 'Exit Marine' : 'Marine Video';
+            $('marineBtn').classList.toggle('active', marineFull);
+        });
+
+        $('sunsetBtn').addEventListener('click', () => {
+            sunsetFull = !sunsetFull;
+            socket.emit('toggleVideoFullscreen', { videoId: 'sunset', isFullscreen: sunsetFull });
+            $('sunsetText').textContent = sunsetFull ? 'Exit Sunset' : 'Sunset Video';
+            $('sunsetBtn').classList.toggle('active', sunsetFull);
+        });
+
+        socket.on('connect', () => { $('status').textContent = 'Connected'; $('status').className = 'status-bar ok'; });
+        socket.on('disconnect', () => { $('status').textContent = 'Disconnected'; $('status').className = 'status-bar err'; });
+        socket.on('fileChanged', () => setTimeout(() => location.reload(), 100));
+        socket.on('slideChanged', s => { cur = s; updateUI(); });
+        socket.on('musicStatus', p => { music = p; $('musicBtn').classList.toggle('active', music); $('musicText').textContent = music ? 'Stop Music' : 'Play Music'; });
+
+        updateUI();
+    </script>
+</body>
+</html>
