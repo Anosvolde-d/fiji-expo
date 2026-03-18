@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/secret",
+      "destination": "/remote.html"
+    },
+    {
+      "source": "/secrets",
+      "destination": "/remote.html"
+    }
+  ]
+}
