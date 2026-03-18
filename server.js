@@ -25,6 +25,13 @@ const MIME = {
 const server = http.createServer((req, res) => {
     let filePath = req.url === '/' ? '/index.html' : req.url;
     
+    // Handle health check route
+    if (filePath === '/health') {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ status: 'ok' }));
+        return;
+    }
+
     // Handle /secret route
     if (filePath === '/secret') {
         filePath = '/remote.html';
